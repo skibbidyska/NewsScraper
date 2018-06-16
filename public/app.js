@@ -1,25 +1,15 @@
-
-$.getJSON("/articles", function(data) {
+$.getJSON("/articles", function (data) {
   // for (var i = 0; i < data.length; i++) {
   //   // Display the apropos information on the page
   //   $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
   // }
 
   for (var i = 0; i < data.length; i++) {
-    var title = $("<a>");
-    var titleText = $("<h1>");
-    var link = data[i].link;
-    var snippet = $("<p>");
+    var card = "<div class='card mt-3'><h5 class='card-header'>" + data[i].title+ "</h5><div class='card-body'><p class='card-text'>" + data[i].snippet + "</p> </div>"
 
-    titleText.text(data[i].title);
-    snippet.text(data[i].snippet);
-    title.append(titleText);
-    title.append(snippet);
-    title.attr({
-      "data-id": data[i]._id,
-      "href": link
-    });
+    $("#articles").append(card);
 
-    $("#articles").append(title);
   }
+  ;
+
 });

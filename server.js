@@ -23,6 +23,7 @@ app.use(express.static("public"));
 
 //connect to mongodb
 
+
 mongoose.connect("mongodb://localhost/news-scraper");
 
 //routes
@@ -36,9 +37,9 @@ app.get("/scrape", function(req, res) {
         $("article").each(function (i, element) {
             var result = {};
 
-            result.title = $(this).find("a").text();
+            result.title = $(this).find("h1.entry-title").find("a").text();
             result.link = $(this).find("a").attr("href");
-            result.snippet = $(this).find("div.excerpt").find("p").text();
+            result.snippet = $(this).find("div.entry-summary").find("p").text();
             result.saved = false;
 
             db.Article.create(result)
@@ -68,7 +69,7 @@ app.get("/articles", function (req, res) {
 
 app.get("/articles/save/:id", function (req, res) {
 
-  db.Article.findByIdAndUpdate(req.params.id, {$set: {saved: true}}, {new: true}, function(err, savedArticle) {
+  db.Article.findByIdAndUpdate(req.params.id, {$set: {saved: true}}, {new: true}, function (err, savedArticle) {
       if (err) throw (err);
       res.json(savedArticle);
     });
@@ -79,12 +80,24 @@ app.get("/articles/saved", function (req, res) {
   db.Article.find({
     saved: true,
   })
-    .then(function(dbArticle) {
+    .then( function (dbArticle) {
       res.json(dbArticle);
     })
-    .catch(function(err) {
+    .catch( function (err) {
       res.json(err);
     });
+});
+
+app.get("/articles/remove/:id", function (req, res) {
+    db.Article.deleteOne({
+      _id: req.params.id
+    })
+      .then( function(dbArticle) {
+        window.redirect("/article/saved");
+      })
+      .catch( function (err) {
+        res.json(err);
+      });
 });
 
 app.listen(PORT, function() {
