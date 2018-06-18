@@ -1,0 +1,29 @@
+body, html {
+  height: 100%;
+}
+
+.bg {
+  background-image: url("../images/bg-img.jpeg");
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 80%;
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}
+
+.transparent {
+  rgba: 0,0,0,.7;
+  border-bottom: solid lightgrey;
+}
+
+.bottom-align {
+  position: absolute;
+  bottom: 25%;
+
+}
+
+.btn-xl {
+  padding: 25px 45px;
+  font-size: 20px;
+  border-radius: 10px;
+}
